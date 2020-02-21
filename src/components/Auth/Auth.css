@@ -1,0 +1,71 @@
+/* Colors:
+    #384D48 - graygreen
+    #6E7271 - darkgray
+    #ACAD94 - beige?
+    #D8D4D5 - medgray
+    #E2E2E2 - lightgray
+*/
+
+.logo {
+    font-family: 'Lobster', cursive;
+    text-shadow: 2px 2px 4px rgba(56, 77, 72, 0.75), 2px 2px 10px rgba(66, 91, 85, 0.99);
+    font-size: 3rem;
+}
+
+.auth {
+    width: 30rem;
+    margin: 2rem auto;
+    max-width: 80%;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    background-color: #D8D4D5;
+}
+
+.input {
+    height: 1.5rem;
+    border: none;
+    border-radius: 3px;
+    margin: 1rem 0.75rem;
+    padding: 0.25rem;
+}
+
+.btnBox {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn {
+    border: none;
+    padding: 15px 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    display: block;
+    position: relative;
+    box-shadow: 0 6px 0 .75px #6E7271;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.btn:hover {
+    box-shadow: 0 4px 0 .5px #6E7271;
+    top: 2px;
+}
+
+.btn:active {
+    box-shadow: none;
+    border: 1px solid #6E7271;
+    top: 6px;
+}
+
+.btn.login {
+    background-color: #b7ffab;
+    color: #6E7271;
+}
+
+.btn.register {
+    background-color: #70f1ff;
+    color: #6E7271;
+}
