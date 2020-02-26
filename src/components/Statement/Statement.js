@@ -16,11 +16,12 @@ const Statement = props => {
                     // console.log('Doc.ID: ', doc.id)
                     // console.log('Doc.Key: ', doc.data().Key)
                     // console.log(doc.data().transactonHistory)
-                    transaction.push(doc.data().transactonHistory)
-                    console.log(transaction)
+                    setTransactions(doc.data())
+                    console.log('data being pushed')
                 })
-            })
+            }).then(res => console.log({res}))
     }
+    console.log({transactions})
 
     useEffect(() => {
         // ? Check if total is true in db, if so have input-total rendered
@@ -32,10 +33,11 @@ const Statement = props => {
     const onSubmitHandler = (user, total) => {
         firebase.db.collection(user).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                transaction.push(doc.data().transactonHistory);
+                transactions.push(doc.data().transactonHistory);
+                console.log('push transaction', transactions.push(doc.data()))
             })
         })
-        transaction.push()
+        transactions.push()
         console.log(transactions);
         firebase.db.collection(user).doc('transactions').set({
             total: total,
