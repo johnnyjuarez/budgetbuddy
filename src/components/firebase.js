@@ -31,6 +31,12 @@ class Firebase {
 
     async register(name, email, password) {
         await this.auth.createUserWithEmailAndPassword(email, password)
+        this.db.collection(this.auth.currentUser.uid).doc('transactions').set({
+            total: 'EMPTY',
+            transactonHistory: {
+                date: new Date()
+            }
+        })
         return this.auth.currentUser.updateProfile({
             displayName: name
         })

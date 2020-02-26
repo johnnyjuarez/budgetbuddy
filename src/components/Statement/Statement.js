@@ -2,24 +2,53 @@ import React, { useState, useEffect } from 'react';
 import firebase from '../firebase';
 
 const Statement = props => {
+    let transaction = [];
     // ! State - uid, total
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(firebase.auth.currentUser.uid)
     const [total, setTotal] = useState('');
+    const [transactions, setTransactions] = useState([]);
 
-    useEffect(() => {
-        setUser(firebase.auth.currentUser.uid)
-    }, [user])
-
-    const onSubmitHandler = (user, total) => {
-        console.log(firebase.db)
+    const snapShotHandler = (user) => {
+        firebase.db.collection(user).get()
+            .then(querySnapshot => {
+                console.log("snapshot received")
+                querySnapshot.forEach(doc => {
+                    // console.log('Doc.ID: ', doc.id)
+                    // console.log('Doc.Key: ', doc.data().Key)
+                    // console.log(doc.data().transactonHistory)
+                    transaction.push(doc.data().transactonHistory)
+                    console.log(transaction)
+                })
+            })
     }
 
-    const writeUpdate = (user) => {
-        const updates = {};
-        var newPostKey = firebase.db.ref().child('users').push().key;
-        updates['/users' + newPostKey] = user;
+    useEffect(() => {
+        // ? Check if total is true in db, if so have input-total rendered
+        setUser(firebase.auth.currentUser.uid)
+        // snapShotHandler(user);
+    }, [transactions, user])
 
-        firebase.db.ref().update(updates);
+    // ? Work on getting transaction history pushed instead of overwritten.
+    const onSubmitHandler = (user, total) => {
+        firebase.db.collection(user).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                transaction.push(doc.data().transactonHistory);
+            })
+        })
+        transaction.push()
+        console.log(transactions);
+        firebase.db.collection(user).doc('transactions').set({
+            total: total,
+            transactonHistory: {
+                date: new Date()
+            }
+        })
+            .then(docRef => {
+                console.log('Document written with ID: ', docRef);
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
 
@@ -31,10 +60,9 @@ const Statement = props => {
                 <input type="number" placeholder="enter new total" value={total} onChange={event => setTotal(event.target.value)} />
             </form>
             <p>total: {total}</p>
-            <button onClick={onSubmitHandler(user, total)}>Submit</button>
+            <button onClick={() => onSubmitHandler(user, total)}>Submit</button>
+            <button onClick={() => snapShotHandler(user)}>Test</button>
         </div>
-        // attempt to create individual objects based on uid
-        // write to db - ex add to "total"
     )
 }
 
