@@ -19,7 +19,7 @@ const Statement = props => {
                     setTransactions(doc.data())
                     console.log('data being pushed')
                 })
-            }).then(res => console.log({res}))
+            })
     }
     console.log({transactions})
 
