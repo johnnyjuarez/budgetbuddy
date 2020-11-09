@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="auth">
+    <h1 class="logo">Budget Buddy</h1>
+    <form>
+  <div class="email-div">
+      <label for="email">Email: </label>
+      <input type="email" class="input">
+    </div>
+      <div class="password-div">
+      <label for="password">Password: </label>
+      <input type="password" class="input">
+    </div>
+      <p>Please log in to continue</p>
+      <div class="btnBox">
+        <button class="btn login">Log in</button>
+        <button class="btn register">Sign Up</button>
+      </div>
+    </form>
+  </div>
+  <div class='default-dashboard'>
+    <h1>Welcome User</h1>
+    <p>Default AcountName</p>
+    <p>Total: </p>
+    <button >Add new statement</button>
+    <button >Logout</button>
+</div>
+<div class='new-statment'>
+    <h1>New Statement Page</h1>
+    <form type='submit'>
+      <select class='account-select'>
+        <option value="account1">account1</option>
+        <option value="account2">account2</option>
+        <option value="account3">account3</option>
+      </select>
+        <select>
+          <option value="minus">-</option>
+          <option value="add">+</option>
+        </select>
+        <input type="number" placeholder="enter new total" />
+    </form>
+    <p>total: </p>
+    <button>Submit</button>
+</div>
+<div class="new-account">
+  <h1>New Account Page</h1>
+  <form type='submit'>
+    <label for="account-name">Account Name: </label>
+    <input type="text" class='account-name'>
+    <label for='starting-amount'>Starting Amount: </label>
+    <input type='number' class='starting-amount'>
+    <input type="submit" value="submit">
+  </form>
+</div>
+</body>
+</html>

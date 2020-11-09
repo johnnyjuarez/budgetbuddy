@@ -5,21 +5,14 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Statement from './components/Statement/Statement'
 import Spinner from './components/UI/Spinner/Spinner'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import firebase from './components/firebase'
 
 import './App.css';
 
 const App = props => {
 
-  const [firebaseInit, setFirebaseInit] = useState(false);
 
-  useEffect(() => {
-    firebase.isInitialized().then(val => {
-      setFirebaseInit(val);
-    })
-  })
 
-  return firebaseInit !== false ? (
+  return (
     <Router>
       <Switch>
         <Route exact path="/" component={Auth} />
@@ -28,7 +21,6 @@ const App = props => {
         <Route exact path="/newStatement" component={Statement} />
       </Switch>
     </Router>
-  ) : <Spinner />
+  )
 }
-
 export default App;
