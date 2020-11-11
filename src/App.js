@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 
 const App = (props) => {
-  const [setUserId, userId] = useState('');
+  const [userId, setUserId] = useState('');
 
   const addUserId = (userId) => {
     console.log('userId', userId);

@@ -13,11 +13,42 @@ const Auth = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   // hook for changing route
   const history = useHistory();
   const goToRegister = () => {
     history.push('/register');
+  };
+
+  useEffect(() => {
+    if (isSubmit) {
+      let isMounted = true;
+      setError(null);
+      AuthApiService.postLogin({
+        email: email,
+        password: password,
+      })
+        .then((res) => {
+          console.log(res);
+          if (isMounted) {
+            TokenService.saveAuthToken(res.authToken);
+            props.history.replace('/dashboard');
+            context.addUserId(res.id);
+          }
+          isMounted = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err.error);
+        });
+    }
+    setIsSubmit(false);
+  }, [isSubmit]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
   };
 
   const onChangeEmail = (e) => {
@@ -27,29 +58,6 @@ const Auth = (props) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmitJwtAuth = (e) => {
-    e.preventDefault();
-    setError(null);
-
-    AuthApiService.postLogin({
-      email: email,
-      // encrypt password
-      password: password,
-    })
-      .then((res) => {
-        let isMounted = true;
-        if (isMounted) {
-          setEmail('');
-          setPassword('');
-          TokenService.saveAuthToken(res.authToken);
-          props.history.replace('/dashboard');
-          context.addUserId(res.id);
-        }
-        isMounted = false;
-      })
-      .catch((err) => setError(err.error));
-  };
-
   let errorMessage = null;
   if (error) {
     errorMessage = <p className='error-message'>{error}</p>;
@@ -57,7 +65,7 @@ const Auth = (props) => {
   return (
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
-      <form onSubmit={handleSubmitJwtAuth}>
+      <form onSubmit={(e) => submitHandler(e)}>
         <input
           className='input'
           type='email'
