@@ -7,9 +7,12 @@ const Dashboard = (props) => {
   const context = useContext(Context);
   const [newTotal, setNewTotal] = useState(0);
   const history = useHistory();
+  useEffect(() => {
+    console.log('useeffect activated');
+  }, []);
   return (
     <div>
-      <h1>Welcome {context.user}</h1>
+      <h1>Welcome</h1>
       <p>Total: {newTotal}</p>
       <button onClick={() => history.push('/newStatement')}>
         Add new statement

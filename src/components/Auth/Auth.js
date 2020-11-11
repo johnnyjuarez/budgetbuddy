@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
@@ -37,11 +37,15 @@ const Auth = (props) => {
       password: password,
     })
       .then((res) => {
-        context.addUserId(res.id);
-        setEmail('');
-        setPassword('');
-        TokenService.saveAuthToken(res.authToken);
-        props.history.replace('/dashboard');
+        let isMounted = true;
+        if (isMounted) {
+          setEmail('');
+          setPassword('');
+          TokenService.saveAuthToken(res.authToken);
+          props.history.replace('/dashboard');
+          context.addUserId(res.id);
+        }
+        isMounted = false;
       })
       .catch((err) => setError(err.error));
   };
