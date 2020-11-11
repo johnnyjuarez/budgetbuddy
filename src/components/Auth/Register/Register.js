@@ -7,7 +7,7 @@ import classes from './Register.module.css';
 const Auth = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   // submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,16 +19,22 @@ const Auth = (props) => {
     })
       .then((user) => {
         // reset email and password fields
+        console.log('this is user', user);
         setEmail('');
         setPassword('');
         // redirect user to the userdashboard path
-        props.history.replace('/dashboard');
+        if (!error) {
+          props.history.replace('/dashboard');
+        }
       })
-      .catch((res) => {
-        setError({ error: res.error });
-        console.log(error);
+      .catch((err) => {
+        setError(err.error);
       });
   };
+  let errorMessage = null;
+  if (error) {
+    errorMessage = <p className='error-message'>{error}</p>;
+  }
 
   return (
     <div className={classes.register}>
@@ -58,6 +64,7 @@ const Auth = (props) => {
             }}
           />
         </div>
+        {errorMessage}
         <div className='btnBox'>
           <input type='submit' className='btn register' value='submit' />
         </div>

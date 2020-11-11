@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
+import Context from '../../Context';
 
 import './Auth.css';
 
 const Auth = (props) => {
+  // context to pass userId to App.js
+  const context = useContext(Context);
+  // state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
   // hook for changing route
   const history = useHistory();
@@ -31,14 +35,21 @@ const Auth = (props) => {
       email: email,
       // encrypt password
       password: password,
-    }).then((res) => {
-      setEmail('');
-      setPassword('');
-      TokenService.saveAuthToken(res.authToken);
-      props.history.replace('/dashboard');
-    });
+    })
+      .then((res) => {
+        context.addUserId(res.id);
+        setEmail('');
+        setPassword('');
+        TokenService.saveAuthToken(res.authToken);
+        props.history.replace('/dashboard');
+      })
+      .catch((err) => setError(err.error));
   };
 
+  let errorMessage = null;
+  if (error) {
+    errorMessage = <p className='error-message'>{error}</p>;
+  }
   return (
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
@@ -57,7 +68,7 @@ const Auth = (props) => {
           value={password}
           onChange={(e) => onChangePassword(e)}
         />
-
+        {errorMessage}
         <p>Please log in to continue</p>
         <div className='btnBox'>
           <input type='submit' className='btn login' />
@@ -68,13 +79,6 @@ const Auth = (props) => {
       </form>
     </div>
   );
-
-  async function login() {
-    try {
-    } catch (err) {
-      alert(err.message);
-    }
-  }
 };
 
 export default withRouter(Auth);
