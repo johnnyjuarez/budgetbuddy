@@ -6,11 +6,17 @@ import { withRouter, useHistory } from 'react-router-dom';
 
 const Dashboard = (props) => {
   const context = useContext(Context);
-  const [newTotal, setNewTotal] = useState(0);
-  const [userData, setUserData] = useState({});
+  const [total, setTotal] = useState(0);
+  const [userData, setUserData] = useState([]);
   const history = useHistory();
+  console.log(context.user);
+  console.log(props);
+  // on component did mount
   useEffect(() => {
-    fetch(`${config.API_ENDPOINT}/accounts/1`, {
+    console.log(context.user);
+    console.log(props);
+
+    fetch(`${config.API_ENDPOINT}/accounts/${props.userId}`, {
       headers: {
         'content-type': 'application/json',
       },
@@ -19,20 +25,42 @@ const Dashboard = (props) => {
         return res.json();
       })
       .then((data) => {
-        console.log(data[0]);
-        setUserData(data[0]);
+        setUserData(data);
+        setTotal(data[0].account_total);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [props, context]);
+
+  const accountNameOptions = userData.map((account) => {
+    return (
+      <option key={account.id} value={account.id}>
+        {account.account_name}
+      </option>
+    );
+  });
+
+  const selectAccountChangeHandler = (e) => {
+    console.log('e.target.value', e.target.value);
+    console.log(userData);
+    for (let i = 0; i < userData.length; i++) {
+      console.log(userData[i].id, e.target.value);
+      if (userData[i].id === parseInt(e.target.value)) {
+        console.log('userData[i]', userData[i]);
+        console.log('userData[i].account_total', userData[i].account_total);
+        setTotal(userData[i].account_total);
+        return total;
+      }
+    }
+  };
+
   return (
     <div>
-      <p>Total: {userData.account_total}</p>
-      <select>
-        <option value={`${userData.account_name}`}>
-          {userData.account_name}
-        </option>
+      <p>Total: {total}</p>
+      {/* <select onChange={(e) => selectAccountChangeHandler(e)}> */}
+      <select onChange={selectAccountChangeHandler}>
+        {accountNameOptions}
       </select>
       <button onClick={() => history.push('/newStatement')}>
         Add new statement
