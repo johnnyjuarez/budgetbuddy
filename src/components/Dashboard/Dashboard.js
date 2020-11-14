@@ -2,12 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import Context from '../../Context';
 import config from '../../config';
 
+import AddAccountForm from './AddAccountForm';
+
 import { withRouter, useHistory } from 'react-router-dom';
 
 const Dashboard = (props) => {
   const context = useContext(Context);
   const [total, setTotal] = useState(0);
   const [userData, setUserData] = useState([]);
+  const [addAccount, setAddAccount] = useState(false);
   const history = useHistory();
   console.log(context.user);
   console.log(props);
@@ -41,6 +44,15 @@ const Dashboard = (props) => {
     );
   });
 
+  const addAccountHandler = () => {
+    setAddAccount(true);
+  };
+
+  let addAccountHTML = null;
+  if (addAccount) {
+    addAccountHTML = <AddAccountForm userId={userData[0]} />;
+  }
+
   const selectAccountChangeHandler = (e) => {
     console.log('e.target.value', e.target.value);
     console.log(userData);
@@ -62,9 +74,11 @@ const Dashboard = (props) => {
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>
+      <button onClick={addAccountHandler}>Add a new account</button>
       <button onClick={() => history.push('/newStatement')}>
         Add new statement
       </button>
+      {addAccountHTML}
       <button onClick={logout}>Logout</button>
     </div>
   );
