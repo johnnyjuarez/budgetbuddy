@@ -1,4 +1,5 @@
 import config from '../config.js';
+import TokenService from '../services/token-services';
 
 const AccountServices = {
   postAccount(newAccount, userId) {
@@ -6,6 +7,7 @@ const AccountServices = {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
+        authorization: `bearer ${TokenService.getAuthToken()}`,
       },
       body: JSON.stringify(newAccount),
     }).then((res) => {

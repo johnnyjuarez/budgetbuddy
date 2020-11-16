@@ -11,11 +11,8 @@ const TokenService = {
     window.localStorage.removeItem(config.TOKEN_KEY);
   },
   hasAuthToken() {
-    return !!TokenService.getAuthToken()
+    return !!TokenService.getAuthToken();
   },
-  makeBasicAuthToken(email, password) {
-    return window.btoa(`${email}:${password}`)
-  }
 };
 
 export default TokenService;

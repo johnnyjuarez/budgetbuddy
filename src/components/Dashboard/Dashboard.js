@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Context from '../../Context';
 import config from '../../config';
+import TokenService from '../../services/token-services';
 
 import AddAccountForm from './AddAccountForm';
 
@@ -22,6 +23,7 @@ const Dashboard = (props) => {
     fetch(`${config.API_ENDPOINT}/accounts/${props.userId}`, {
       headers: {
         'content-type': 'application/json',
+        authorization: `bearer ${TokenService.getAuthToken()}`,
       },
     })
       .then((res) => {
