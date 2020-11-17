@@ -14,7 +14,6 @@ const AddAccountForm = (props) => {
       account_total: accountTotal,
     };
     AccountServices.postAccount(newAccount, context.user).then((account) => {
-      console.log('this is account', account);
       setAccountName('');
       setAccountTotal(0);
     });
