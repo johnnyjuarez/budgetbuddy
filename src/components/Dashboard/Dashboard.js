@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import cryptoJS from 'crypto-js';
 import Context from '../../Context';
 import config from '../../config';
 import TokenService from '../../services/token-services';
 
-import AddAccountForm from './AddAccountForm';
+import AddAccountForm from '../Account/AddAccountForm';
 import TransactionHistory from './TransactionHistory';
+import Modal from '../Modal/Modal';
 
 import { withRouter, useHistory } from 'react-router-dom';
 
@@ -16,10 +18,13 @@ const Dashboard = (props) => {
   const [selectedAccountId, setSelectedAccountId] = useState(0);
   const [transactionData, setTransactionData] = useState([]);
   const [error, setError] = useState(null);
+
   const history = useHistory();
   // on component did mount
   useEffect(() => {
-    fetch(`${config.API_ENDPOINT}/accounts/${props.userId}`, {
+    let userId = localStorage.getItem('userId');
+    console.log(userId);
+    fetch(`${config.API_ENDPOINT}/accounts/${userId}`, {
       headers: {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
@@ -36,23 +41,28 @@ const Dashboard = (props) => {
       .catch((err) => {
         setError(err);
       });
-  }, [props, context]);
+  }, [addAccount]);
 
   useEffect(() => {
     let accountId = selectedAccountId.toString();
-    fetch(`${config.API_ENDPOINT}/transactions/${accountId}`, {
-      headers: {
-        'content-type': 'application/json',
-        authorization: `bearer ${TokenService.getAuthToken()}`,
-      },
-    })
-      .then((res) => {
-        return res.json();
+    if (selectedAccountId > 0) {
+      fetch(`${config.API_ENDPOINT}/transactions/${accountId}`, {
+        headers: {
+          'content-type': 'application/json',
+          authorization: `bearer ${TokenService.getAuthToken()}`,
+        },
       })
-      .then((data) => {
-        setTransactionData(data);
-      });
-    console.log(selectedAccountId);
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setTransactionData(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      console.log(selectedAccountId);
+    }
   }, [selectedAccountId]);
 
   const accountNameOptions = userData.map((account) => {
@@ -64,16 +74,17 @@ const Dashboard = (props) => {
   });
 
   const addAccountHandler = () => {
-    setAddAccount(true);
+    setAddAccount(!addAccount);
   };
 
-  let addAccountHTML = null;
-  if (addAccount) {
-    addAccountHTML = <AddAccountForm userId={userData[0]} />;
-  }
+  let addAccountHTML = (
+    <Modal open={addAccount} onClose={addAccountHandler}>
+      <AddAccountForm closeOnSubmit={addAccountHandler} />
+    </Modal>
+  );
 
   let showTransactions = null;
-  if (selectedAccountId !== 0) {
+  if (transactionData.length > 0) {
     showTransactions = <TransactionHistory transactions={transactionData} />;
   }
 
@@ -90,7 +101,6 @@ const Dashboard = (props) => {
   return (
     <div>
       <p>Total: {total}</p>
-      {/* <select onChange={(e) => selectAccountChangeHandler(e)}> */}
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>

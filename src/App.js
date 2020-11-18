@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import cryptoJS from 'crypto-js';
 import Auth from './components/Auth/Auth';
 import Register from './components/Auth/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -12,8 +13,12 @@ import './App.css';
 const App = (props) => {
   const [userId, setUserId] = useState(0);
 
+  // useEffect(() => {
+  //   localStorage.setItem('userId', userId);
+  // }, [userId]);
+
   const addUserId = (userId) => {
-    setUserId(userId);
+    localStorage.setItem('userId', userId);
   };
 
   const value = {

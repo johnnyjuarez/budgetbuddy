@@ -19,7 +19,6 @@ const Auth = (props) => {
     })
       .then((user) => {
         // reset email and password fields
-        console.log('this is user', user);
         setEmail('');
         setPassword('');
         // redirect user to the userdashboard path
