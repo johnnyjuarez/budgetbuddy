@@ -30,7 +30,6 @@ const Auth = (props) => {
         password: password,
       })
         .then((res) => {
-          console.log(res);
           if (isMounted) {
             TokenService.saveAuthToken(res.authToken);
             props.history.replace('/dashboard');
@@ -39,8 +38,7 @@ const Auth = (props) => {
           isMounted = false;
         })
         .catch((err) => {
-          console.log(err);
-          setError(err.error);
+          console.error(err.error);
         });
     }
     setIsSubmit(false);
