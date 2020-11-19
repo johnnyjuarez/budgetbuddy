@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import cryptoJS from 'crypto-js';
 import Context from '../../Context';
 import config from '../../config';
 import TokenService from '../../services/token-services';
 
 import AddAccountForm from '../Account/AddAccountForm';
-import TransactionHistory from './TransactionHistory';
+import AddTransactionForm from '../Transaction/AddTransactionForm';
+import TransactionHistory from './DashboardTransactionHistory';
+import LoginError from '../LoginError/LoginError';
 import Modal from '../Modal/Modal';
 
 import { withRouter, useHistory } from 'react-router-dom';
@@ -15,6 +16,7 @@ const Dashboard = (props) => {
   const [total, setTotal] = useState(0);
   const [userData, setUserData] = useState([]);
   const [addAccount, setAddAccount] = useState(false);
+  const [addTransaction, setAddTransaction] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(0);
   const [transactionData, setTransactionData] = useState([]);
   const [error, setError] = useState(null);
@@ -63,23 +65,40 @@ const Dashboard = (props) => {
         });
       console.log(selectedAccountId);
     }
-  }, [selectedAccountId]);
+  }, [selectedAccountId, addTransaction]);
 
-  const accountNameOptions = userData.map((account) => {
-    return (
-      <option key={account.id} value={account.id}>
-        {account.account_name}
-      </option>
-    );
-  });
-
+  let accountNameOptions = null;
+  if (userData.length > 0) {
+    accountNameOptions = userData
+      .sort((a, b) => a.id - b.id)
+      .map((account) => {
+        return (
+          <option key={account.id} value={account.id}>
+            {account.account_name}
+          </option>
+        );
+      });
+  }
   const addAccountHandler = () => {
     setAddAccount(!addAccount);
+  };
+
+  const addTransactionHandler = () => {
+    setAddTransaction(!addTransaction);
   };
 
   let addAccountHTML = (
     <Modal open={addAccount} onClose={addAccountHandler}>
       <AddAccountForm closeOnSubmit={addAccountHandler} />
+    </Modal>
+  );
+
+  let addTransactionHTML = (
+    <Modal open={addTransaction} onClose={addTransactionHandler}>
+      <AddTransactionForm
+        accountId={selectedAccountId}
+        closeOnSubmit={addTransactionHandler}
+      />
     </Modal>
   );
 
@@ -98,23 +117,29 @@ const Dashboard = (props) => {
     }
   };
 
-  return (
+  let htmlDisplay = (
     <div>
       <p>Total: {total}</p>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>
-      <button onClick={addAccountHandler}>Add a new account</button>
-      <button onClick={() => history.push('/newStatement')}>
-        Add new statement
-      </button>
+      <button onClick={addAccountHandler}>New Account</button>
+      <button onClick={addTransactionHandler}>New Transaction</button>
       {addAccountHTML}
+      {addTransactionHTML}
       {showTransactions}
       <button onClick={logout}>Logout</button>
     </div>
   );
 
+  if (!localStorage.getItem('userId')) {
+    htmlDisplay = <LoginError />;
+  }
+
+  return htmlDisplay;
+
   async function logout() {
+    localStorage.removeItem('userId');
     history.push('/');
   }
 };

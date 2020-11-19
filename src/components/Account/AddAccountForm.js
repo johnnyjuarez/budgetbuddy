@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react';
-import Context from '../../Context';
+import React, { useState } from 'react';
 import AccountServices from '../../services/account-services';
 
 import './AddAccountForm.css';
 
 const AddAccountForm = (props) => {
-  const context = useContext(Context);
   const [accountName, setAccountName] = useState('');
   const [accountTotal, setAccountTotal] = useState(0);
   let userId = localStorage.getItem('userId');
@@ -35,26 +33,24 @@ const AddAccountForm = (props) => {
 
   return (
     <div>
-      <div>
-        <h2>Add Account Form</h2>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor='accountname'>Account Name: </label>
-          <input
-            type='text'
-            qrequire='true'
-            placeholder='account name'
-            onChange={accountNameOnChange}
-          />
-          <label htmlFor='accounttotal'>Account Total: </label>
-          <input
-            type='number'
-            step='any'
-            defaultValue={accountTotal}
-            onChange={accountTotalOnChange}
-          />
-          <input type='submit' />
-        </form>
-      </div>
+      <h2>New Account</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='accountname'>Account Name: </label>
+        <input
+          type='text'
+          require='true'
+          placeholder='account name'
+          onChange={accountNameOnChange}
+        />
+        <label htmlFor='accounttotal'>Account Total: </label>
+        <input
+          type='number'
+          step='any'
+          defaultValue={accountTotal}
+          onChange={accountTotalOnChange}
+        />
+        <input type='submit' />
+      </form>
     </div>
   );
 };

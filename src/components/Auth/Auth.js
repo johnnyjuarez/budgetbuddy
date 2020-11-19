@@ -38,7 +38,7 @@ const Auth = (props) => {
           isMounted = false;
         })
         .catch((err) => {
-          setError(err.error);
+          console.error(err.error);
         });
     }
     setIsSubmit(false);
