@@ -11,6 +11,8 @@ import Modal from '../Modal/Modal';
 
 import { withRouter, useHistory } from 'react-router-dom';
 
+import './Dashboard.css';
+
 const Dashboard = (props) => {
   const context = useContext(Context);
   const [total, setTotal] = useState(0);
@@ -26,7 +28,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     let userId = localStorage.getItem('userId');
     console.log(userId);
-    fetch(`${config.API_ENDPOINT}/accounts/${userId}`, {
+    fetch(`${config.API_ENDPOINT}/accounts/`, {
       headers: {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
@@ -118,17 +120,26 @@ const Dashboard = (props) => {
   };
 
   let htmlDisplay = (
-    <div>
-      <p>Total: {total}</p>
+    <div className='container'>
+      <p>Total: ${total}</p>
+      <label>Select Account: </label>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>
-      <button onClick={addAccountHandler}>New Account</button>
-      <button onClick={addTransactionHandler}>New Transaction</button>
+      <div className='btnBox'>
+        <button className='dashboard-btn' onClick={addAccountHandler}>
+          New Account
+        </button>
+        <button className='dashboard-btn' onClick={addTransactionHandler}>
+          New Transaction
+        </button>
+      </div>
       {addAccountHTML}
       {addTransactionHTML}
       {showTransactions}
-      <button onClick={logout}>Logout</button>
+      <button className='logout-btn' onClick={logout}>
+        Logout
+      </button>
     </div>
   );
 
