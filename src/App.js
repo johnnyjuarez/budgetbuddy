@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Auth from './components/Auth/Auth';
-import Register from './components/Auth/Register/Register';
+import Auth from './components/Login/Login';
+import Register from './components/Login/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import Spinner from './components/UI/Spinner/Spinner';
 import Context from './Context';

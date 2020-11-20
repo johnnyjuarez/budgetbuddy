@@ -4,9 +4,9 @@ import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
 import Context from '../../Context';
 
-import './Auth.css';
+import './Login.css';
 
-const Auth = (props) => {
+const Login = (props) => {
   // context to pass userId to App.js
   const context = useContext(Context);
   // state
@@ -91,4 +91,4 @@ const Auth = (props) => {
   );
 };
 
-export default withRouter(Auth);
+export default withRouter(Login);
