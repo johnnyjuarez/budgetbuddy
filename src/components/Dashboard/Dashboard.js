@@ -27,7 +27,6 @@ const Dashboard = (props) => {
   // on component did mount
   useEffect(() => {
     let userId = localStorage.getItem('userId');
-    console.log(userId);
     fetch(`${config.API_ENDPOINT}/accounts/`, {
       headers: {
         'content-type': 'application/json',
@@ -65,9 +64,8 @@ const Dashboard = (props) => {
         .catch((err) => {
           console.error(err);
         });
-      console.log(selectedAccountId);
     }
-  }, [selectedAccountId, addTransaction]);
+  }, [selectedAccountId, addTransaction, total]);
 
   let accountNameOptions = null;
   if (userData.length > 0) {
@@ -120,13 +118,13 @@ const Dashboard = (props) => {
   };
 
   let htmlDisplay = (
-    <div className='container'>
+    <div className='dashboard-container'>
       <p>Total: ${total}</p>
       <label>Select Account: </label>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>
-      <div className='btnBox'>
+      <div className='dashboard-btnBox'>
         <button className='dashboard-btn' onClick={addAccountHandler}>
           New Account
         </button>

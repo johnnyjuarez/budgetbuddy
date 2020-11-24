@@ -6,8 +6,6 @@ import Spinner from './components/UI/Spinner/Spinner';
 import Context from './Context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import './App.css';
-
 const App = (props) => {
   const addUserId = (userId) => {
     localStorage.setItem('userId', userId);

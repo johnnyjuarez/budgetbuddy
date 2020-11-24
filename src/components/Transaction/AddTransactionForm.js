@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import TransactionServices from '../../services/transaction-services';
 
+import './AddTransactionForm.css';
+
 export default function AddTransactionForm(props) {
   // amount, type, description
   const [transactionAmount, setTransactionAmount] = useState(0);
@@ -50,7 +52,7 @@ export default function AddTransactionForm(props) {
           <option defaultValue value='increase'>
             Increase
           </option>
-          <option value='decrease'>decrease</option>
+          <option value='decrease'>Decrease</option>
         </select>
         <label htmlFor='transactionDescrip'>Description:</label>
         <input

@@ -64,6 +64,7 @@ const Login = (props) => {
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
       <form onSubmit={(e) => submitHandler(e)}>
+        <label>Email: </label>
         <input
           className='input'
           type='email'
@@ -71,6 +72,7 @@ const Login = (props) => {
           value={email}
           onChange={(e) => onChangeEmail(e)}
         />
+        <label>Password:</label>
         <input
           className='input'
           type='password'
