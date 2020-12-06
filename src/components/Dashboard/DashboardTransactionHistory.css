@@ -1,0 +1,13 @@
+table {
+  background-color: #e8e6e6;
+  border-collapse: separate;
+}
+
+
+.increase {
+  background-color: #84db94;
+}
+
+.decrease {
+  background-color: #fa919d;
+}

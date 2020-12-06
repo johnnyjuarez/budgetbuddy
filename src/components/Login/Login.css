@@ -25,9 +25,10 @@
 
 .input {
     height: 1.5rem;
+    width: 60%;
     border: none;
     border-radius: 3px;
-    margin: 1rem 0.75rem;
+    margin: .25rem auto;
     padding: 0.25rem;
 }
 
@@ -68,4 +69,9 @@
 .btn.register {
     background-color: #70f1ff;
     color: #6E7271;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
 }

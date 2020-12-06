@@ -25,7 +25,6 @@ const AuthApiService = {
       },
       body: JSON.stringify(user),
     }).then((res) => {
-      console.log('this is user', res);
       if (!res.ok) {
         return res.json().then((e) => {
           return Promise.reject(e);

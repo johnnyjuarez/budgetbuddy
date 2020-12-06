@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
+import Modal from '../Modal/Modal';
+import LandingModal from '../LandingModal/LandingModal';
 import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
 import Context from '../../Context';
 
-import './Auth.css';
+import './Login.css';
 
-const Auth = (props) => {
+const Login = (props) => {
   // context to pass userId to App.js
   const context = useContext(Context);
   // state
@@ -14,6 +16,7 @@ const Auth = (props) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLanding, setIsLanding] = useState(true);
 
   // hook for changing route
   const history = useHistory();
@@ -30,7 +33,6 @@ const Auth = (props) => {
         password: password,
       })
         .then((res) => {
-          console.log(res);
           if (isMounted) {
             TokenService.saveAuthToken(res.authToken);
             props.history.replace('/dashboard');
@@ -39,8 +41,7 @@ const Auth = (props) => {
           isMounted = false;
         })
         .catch((err) => {
-          console.log(err);
-          setError(err.error);
+          console.error(err.error);
         });
     }
     setIsSubmit(false);
@@ -62,18 +63,38 @@ const Auth = (props) => {
   if (error) {
     errorMessage = <p className='error-message'>{error}</p>;
   }
+
+  const landingModalCloseHandler = () => {
+    setIsLanding(!isLanding);
+    localStorage.setItem('landing', true);
+  };
+
+  let landingModal = null;
+  if (!localStorage.getItem('landing')) {
+    landingModal = (
+      <Modal open={isLanding} onClose={landingModalCloseHandler}>
+        <LandingModal />
+      </Modal>
+    );
+  }
+
   return (
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
+      {landingModal}
       <form onSubmit={(e) => submitHandler(e)}>
+        <label htmlFor='emailInput'>Email: </label>
         <input
+          id='emailInput'
           className='input'
           type='email'
           placeholder='Enter Email'
           value={email}
           onChange={(e) => onChangeEmail(e)}
         />
+        <label htmlFor='passwordInput'>Password: </label>
         <input
+          id='passwordInput'
           className='input'
           type='password'
           placeholder='Enter Password'
@@ -93,4 +114,4 @@ const Auth = (props) => {
   );
 };
 
-export default withRouter(Auth);
+export default withRouter(Login);

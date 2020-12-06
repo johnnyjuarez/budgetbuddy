@@ -8,4 +8,9 @@ This application was built for budgeting and financing tracking purposes. The id
 
 This application was built using React, Node, PostgreSQL, and Express.
 
-![](public/images/)
+![](public/images/landing.png)
+![](public/images/login.png)
+![](public/images/signup.png)
+![](public/images/dashboard.png)
+![](public/images/newaccount.png)
+![](public/images/newtransaction.png)
