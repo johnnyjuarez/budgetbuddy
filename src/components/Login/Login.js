@@ -83,16 +83,18 @@ const Login = (props) => {
       <h1 className='logo'>Budget Buddy</h1>
       {landingModal}
       <form onSubmit={(e) => submitHandler(e)}>
-        <label>Email: </label>
+        <label htmlFor='emailInput'>Email: </label>
         <input
+          id='emailInput'
           className='input'
           type='email'
           placeholder='Enter Email'
           value={email}
           onChange={(e) => onChangeEmail(e)}
         />
-        <label>Password: </label>
+        <label htmlFor='passwordInput'>Password: </label>
         <input
+          id='passwordInput'
           className='input'
           type='password'
           placeholder='Enter Password'

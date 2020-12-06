@@ -42,6 +42,7 @@ export default function AddTransactionForm(props) {
       <form onSubmit={handleSubmit}>
         <label htmlFor='transactionAmount'>Amount:</label>
         <input
+          id='transactionAmount'
           type='number'
           step='any'
           require='true'
@@ -49,13 +50,14 @@ export default function AddTransactionForm(props) {
         />
         <label htmlFor='transactionType'>Type:</label>
         <select onChange={transactionTypeOnChange}>
-          <option defaultValue value='increase'>
+          <option id='transactionType' defaultValue value='increase'>
             Increase
           </option>
           <option value='decrease'>Decrease</option>
         </select>
         <label htmlFor='transactionDescrip'>Description:</label>
         <input
+          id='transactionDescrip'
           type='text'
           require='true'
           onChange={transactionDescripOnChange}

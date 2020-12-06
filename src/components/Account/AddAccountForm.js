@@ -37,6 +37,7 @@ const AddAccountForm = (props) => {
       <form onSubmit={handleSubmit}>
         <label htmlFor='accountname'>Account Name: </label>
         <input
+          id='accountname'
           type='text'
           require='true'
           placeholder='account name'
@@ -44,6 +45,7 @@ const AddAccountForm = (props) => {
         />
         <label htmlFor='accounttotal'>Account Total: </label>
         <input
+          id='accounttotal'
           type='number'
           step='any'
           defaultValue={accountTotal}
