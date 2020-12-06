@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Context from '../../Context';
+import React, { useState, useEffect } from 'react';
 import config from '../../config';
 import TokenService from '../../services/token-services';
 
@@ -11,8 +10,9 @@ import Modal from '../Modal/Modal';
 
 import { withRouter, useHistory } from 'react-router-dom';
 
+import './Dashboard.css';
+
 const Dashboard = (props) => {
-  const context = useContext(Context);
   const [total, setTotal] = useState(0);
   const [userData, setUserData] = useState([]);
   const [addAccount, setAddAccount] = useState(false);
@@ -24,21 +24,26 @@ const Dashboard = (props) => {
   const history = useHistory();
   // on component did mount
   useEffect(() => {
-    let userId = localStorage.getItem('userId');
-    console.log(userId);
-    fetch(`${config.API_ENDPOINT}/accounts/${userId}`, {
+    fetch(`${config.API_ENDPOINT}/accounts/`, {
       headers: {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
       },
     })
       .then((res) => {
+        // Assuming res is status 200
+        console.log(res);
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setUserData(data);
-        setTotal(data[0].account_total);
-        setSelectedAccountId(data[0].id);
+        if (data.length) {
+          setTotal(data[0].account_total);
+          setSelectedAccountId(data[0].id);
+        } else {
+          setTotal(0);
+        }
       })
       .catch((err) => {
         setError(err);
@@ -63,9 +68,8 @@ const Dashboard = (props) => {
         .catch((err) => {
           console.error(err);
         });
-      console.log(selectedAccountId);
     }
-  }, [selectedAccountId, addTransaction]);
+  }, [selectedAccountId, addTransaction, total]);
 
   let accountNameOptions = null;
   if (userData.length > 0) {
@@ -117,18 +121,33 @@ const Dashboard = (props) => {
     }
   };
 
+  let displayError = null;
+  if (error) {
+    displayError = `<p>${error}</p>;`;
+  }
+
   let htmlDisplay = (
-    <div>
-      <p>Total: {total}</p>
+    <div className='dashboard-container'>
+      <p>Total: ${total}</p>
+      {displayError}
+      <label>Select Account: </label>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
       </select>
-      <button onClick={addAccountHandler}>New Account</button>
-      <button onClick={addTransactionHandler}>New Transaction</button>
+      <div className='dashboard-btnBox'>
+        <button className='dashboard-btn' onClick={addAccountHandler}>
+          New Account
+        </button>
+        <button className='dashboard-btn' onClick={addTransactionHandler}>
+          New Transaction
+        </button>
+      </div>
       {addAccountHTML}
       {addTransactionHTML}
       {showTransactions}
-      <button onClick={logout}>Logout</button>
+      <button className='logout-btn' onClick={logout}>
+        Logout
+      </button>
     </div>
   );
 

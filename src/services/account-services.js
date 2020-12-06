@@ -3,7 +3,7 @@ import TokenService from '../services/token-services';
 
 const AccountServices = {
   postAccount(newAccount, userId) {
-    return fetch(`${config.API_ENDPOINT}/accounts/${userId}`, {
+    return fetch(`${config.API_ENDPOINT}/accounts/`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

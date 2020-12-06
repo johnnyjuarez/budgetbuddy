@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import TransactionServices from '../../services/transaction-services';
 
+import './AddTransactionForm.css';
+
 export default function AddTransactionForm(props) {
   // amount, type, description
   const [transactionAmount, setTransactionAmount] = useState(0);
@@ -40,6 +42,7 @@ export default function AddTransactionForm(props) {
       <form onSubmit={handleSubmit}>
         <label htmlFor='transactionAmount'>Amount:</label>
         <input
+          id='transactionAmount'
           type='number'
           step='any'
           require='true'
@@ -47,18 +50,19 @@ export default function AddTransactionForm(props) {
         />
         <label htmlFor='transactionType'>Type:</label>
         <select onChange={transactionTypeOnChange}>
-          <option defaultValue value='increase'>
+          <option id='transactionType' defaultValue value='increase'>
             Increase
           </option>
-          <option value='decrease'>decrease</option>
+          <option value='decrease'>Decrease</option>
         </select>
         <label htmlFor='transactionDescrip'>Description:</label>
         <input
+          id='transactionDescrip'
           type='text'
           require='true'
           onChange={transactionDescripOnChange}
         />
-        <input type='submit' />
+        <input className='modal-submit' type='submit' />
       </form>
     </div>
   );

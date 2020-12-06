@@ -1,17 +1,22 @@
 import React from 'react';
 
+import './DashboardTransactionHistory.css';
+
 const TransactionHistory = (props) => {
-  console.log(props);
   /*
    * Transaction Data Structure
    * amount, description, type, date_added
    */
   let transactions = props.transactions;
-  console.log(Array.isArray(transactions));
   const transactionTable = transactions.map((transaction, i) => {
+    let newDate = new Date(transaction.date_added).toDateString();
     return (
-      <tr key={i}>
-        <td>{transaction.date_added}</td>
+      <tr
+        className={transaction.type}
+        style={{ border: '2px solid black' }}
+        key={i}
+      >
+        <td>{newDate}</td>
         <td>{transaction.description}</td>
         <td>{transaction.amount}</td>
       </tr>

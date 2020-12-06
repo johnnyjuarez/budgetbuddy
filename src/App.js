@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Auth from './components/Auth/Auth';
-import Register from './components/Auth/Register/Register';
+import React from 'react';
+import Auth from './components/Login/Login';
+import Register from './components/Login/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
-import Spinner from './components/UI/Spinner/Spinner';
 import Context from './Context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import './App.css';
 
 const App = (props) => {
   const addUserId = (userId) => {
