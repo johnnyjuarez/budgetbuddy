@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Context from '../../Context';
+import React, { useState, useEffect } from 'react';
 import config from '../../config';
 import TokenService from '../../services/token-services';
 
@@ -14,7 +13,6 @@ import { withRouter, useHistory } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = (props) => {
-  const context = useContext(Context);
   const [total, setTotal] = useState(0);
   const [userData, setUserData] = useState([]);
   const [addAccount, setAddAccount] = useState(false);
@@ -26,7 +24,6 @@ const Dashboard = (props) => {
   const history = useHistory();
   // on component did mount
   useEffect(() => {
-    let userId = localStorage.getItem('userId');
     fetch(`${config.API_ENDPOINT}/accounts/`, {
       headers: {
         'content-type': 'application/json',
@@ -34,12 +31,19 @@ const Dashboard = (props) => {
       },
     })
       .then((res) => {
+        // Assuming res is status 200
+        console.log(res);
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setUserData(data);
-        setTotal(data[0].account_total);
-        setSelectedAccountId(data[0].id);
+        if (data.length) {
+          setTotal(data[0].account_total);
+          setSelectedAccountId(data[0].id);
+        } else {
+          setTotal(0);
+        }
       })
       .catch((err) => {
         setError(err);
@@ -117,9 +121,15 @@ const Dashboard = (props) => {
     }
   };
 
+  let displayError = null;
+  if (error) {
+    displayError = `<p>${error}</p>;`;
+  }
+
   let htmlDisplay = (
     <div className='dashboard-container'>
       <p>Total: ${total}</p>
+      {displayError}
       <label>Select Account: </label>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}

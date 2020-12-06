@@ -49,7 +49,7 @@ const AddAccountForm = (props) => {
           defaultValue={accountTotal}
           onChange={accountTotalOnChange}
         />
-        <input type='submit' />
+        <input className='modal-submit' type='submit' />
       </form>
     </div>
   );

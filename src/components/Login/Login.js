@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
+import Modal from '../Modal/Modal';
+import LandingModal from '../LandingModal/LandingModal';
 import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
 import Context from '../../Context';
@@ -14,6 +16,7 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLanding, setIsLanding] = useState(true);
 
   // hook for changing route
   const history = useHistory();
@@ -60,9 +63,25 @@ const Login = (props) => {
   if (error) {
     errorMessage = <p className='error-message'>{error}</p>;
   }
+
+  const landingModalCloseHandler = () => {
+    setIsLanding(!isLanding);
+    localStorage.setItem('landing', true);
+  };
+
+  let landingModal = null;
+  if (!localStorage.getItem('landing')) {
+    landingModal = (
+      <Modal open={isLanding} onClose={landingModalCloseHandler}>
+        <LandingModal />
+      </Modal>
+    );
+  }
+
   return (
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
+      {landingModal}
       <form onSubmit={(e) => submitHandler(e)}>
         <label>Email: </label>
         <input
@@ -72,7 +91,7 @@ const Login = (props) => {
           value={email}
           onChange={(e) => onChangeEmail(e)}
         />
-        <label>Password:</label>
+        <label>Password: </label>
         <input
           className='input'
           type='password'
