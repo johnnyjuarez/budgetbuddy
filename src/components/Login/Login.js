@@ -41,7 +41,7 @@ const Login = (props) => {
           isMounted = false;
         })
         .catch((err) => {
-          console.error(err.error);
+          setError(err.error);
         });
     }
     setIsSubmit(false);
