@@ -17,6 +17,9 @@ export default function LandingModal() {
         <span>Disclaimer: </span> in no way is this application tied to your
         actual banking accounts, all inputs are from the user.
       </p>
+      <p className='disclaimer'>Testing Credentials - </p>
+      <p className='disclaimer'>Email: test@test.com</p>
+      <p className='disclaimer'>Password: Password12#</p>
     </div>
   );
 }

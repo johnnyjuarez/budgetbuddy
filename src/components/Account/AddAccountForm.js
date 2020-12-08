@@ -6,6 +6,7 @@ import './AddAccountForm.css';
 const AddAccountForm = (props) => {
   const [accountName, setAccountName] = useState('');
   const [accountTotal, setAccountTotal] = useState(0);
+  const [error, setError] = useState(null);
   let userId = localStorage.getItem('userId');
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +21,9 @@ const AddAccountForm = (props) => {
       })
       .then(() => {
         props.closeOnSubmit();
+      })
+      .catch((err) => {
+        setError(err.error);
       });
   };
 
@@ -30,6 +34,12 @@ const AddAccountForm = (props) => {
   const accountTotalOnChange = (e) => {
     setAccountTotal(e.target.value);
   };
+  let displayError = null;
+  if (error) {
+    displayError = (
+      <p className='error-display'>Please enter a valid number.</p>
+    );
+  }
 
   return (
     <div>
@@ -43,10 +53,12 @@ const AddAccountForm = (props) => {
           placeholder='account name'
           onChange={accountNameOnChange}
         />
+        {displayError}
         <label htmlFor='accounttotal'>Account Total: </label>
         <input
           id='accounttotal'
           type='number'
+          require='true'
           step='any'
           defaultValue={accountTotal}
           onChange={accountTotalOnChange}

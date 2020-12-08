@@ -48,6 +48,7 @@
     box-shadow: 0 6px 0 .75px #6E7271;
     cursor: pointer;
     margin-bottom: 1rem;
+    color: black;
 }
 
 .btn:hover {
@@ -63,12 +64,12 @@
 
 .btn.login {
     background-color: #b7ffab;
-    color: #6E7271;
+    color: black;
 }
 
 .btn.register {
     background-color: #70f1ff;
-    color: #6E7271;
+    color: black;
 }
 
 form {

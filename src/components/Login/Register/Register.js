@@ -50,8 +50,9 @@ const Auth = (props) => {
       <h1 className={classes.logo}>Budget Buddy</h1>
       <form className={classes.regForm} onSubmit={(e) => handleSubmit(e)}>
         <div className={classes.inputItem}>
-          <label>Email</label>
+          <label htmlFor='emailInput'>Email</label>
           <input
+            id='emailInput'
             className={classes.input}
             type='email'
             placeholder='Enter Email'
@@ -62,8 +63,9 @@ const Auth = (props) => {
           />
         </div>
         <div className={classes.inputItem}>
-          <label>Password</label>
+          <label htmlFor='passwordInput'>Password</label>
           <input
+            id='passwordInput'
             className={classes.input}
             type='password'
             placeholder="It's a secret"

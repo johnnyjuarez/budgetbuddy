@@ -5,3 +5,7 @@
   padding: 5px;
   background-color: #9ccc9c;
 }
+
+.transactionSelect {
+  border: 1px solid black;
+}

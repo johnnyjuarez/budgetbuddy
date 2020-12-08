@@ -49,7 +49,12 @@ export default function AddTransactionForm(props) {
           onChange={transactionAmountOnChange}
         />
         <label htmlFor='transactionType'>Type:</label>
-        <select onChange={transactionTypeOnChange}>
+        <select
+          id='transactionType'
+          className='transactionSelect'
+          style={{ border: '1px solid black', padding: '3px' }}
+          onChange={transactionTypeOnChange}
+        >
           <option id='transactionType' defaultValue value='increase'>
             Increase
           </option>

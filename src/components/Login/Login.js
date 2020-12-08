@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import Modal from '../Modal/Modal';
+import Loading from '../Loading/Loading';
 import LandingModal from '../LandingModal/LandingModal';
 import AuthApiService from '../../services/auth-api-services';
 import TokenService from '../../services/token-services';
@@ -17,6 +18,7 @@ const Login = (props) => {
   const [error, setError] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLanding, setIsLanding] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // hook for changing route
   const history = useHistory();
@@ -50,6 +52,7 @@ const Login = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    setIsLoading(true);
   };
 
   const onChangeEmail = (e) => {
@@ -78,7 +81,7 @@ const Login = (props) => {
     );
   }
 
-  return (
+  let displayHtml = (
     <div className='auth'>
       <h1 className='logo'>Budget Buddy</h1>
       {landingModal}
@@ -104,7 +107,7 @@ const Login = (props) => {
         {errorMessage}
         <p>Please log in to continue</p>
         <div className='btnBox'>
-          <input type='submit' className='btn login' />
+          <input type='submit' className='btn login' value='login' />
           <button className='btn register' onClick={goToRegister}>
             Sign Up
           </button>
@@ -112,6 +115,11 @@ const Login = (props) => {
       </form>
     </div>
   );
+  if (isLoading) {
+    displayHtml = <Loading />;
+  }
+
+  return <div>{displayHtml}</div>;
 };
 
 export default withRouter(Login);

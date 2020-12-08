@@ -32,11 +32,9 @@ const Dashboard = (props) => {
     })
       .then((res) => {
         // Assuming res is status 200
-        console.log(res);
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setUserData(data);
         if (data.length) {
           setTotal(data[0].account_total);
@@ -48,7 +46,7 @@ const Dashboard = (props) => {
       .catch((err) => {
         setError(err);
       });
-  }, [addAccount]);
+  }, [addAccount, transactionData]);
 
   useEffect(() => {
     let accountId = selectedAccountId.toString();
@@ -66,7 +64,7 @@ const Dashboard = (props) => {
           setTransactionData(data);
         })
         .catch((err) => {
-          console.error(err);
+          setError(err);
         });
     }
   }, [selectedAccountId, addTransaction, total]);
@@ -126,10 +124,34 @@ const Dashboard = (props) => {
     displayError = `<p>${error}</p>;`;
   }
 
+  let displayAccountMessage = <p>Please add an account to add transactions</p>;
+  if (userData.length > 0) {
+    displayAccountMessage = null;
+  }
+
+  let newTransactionBtn = (
+    <button
+      disabled={true}
+      className='dashboard-btn'
+      onClick={addTransactionHandler}
+    >
+      New Transaction
+    </button>
+  );
+
+  if (userData.length > 0) {
+    newTransactionBtn = (
+      <button className='dashboard-btn' onClick={addTransactionHandler}>
+        New Transaction
+      </button>
+    );
+  }
+
   let htmlDisplay = (
     <div className='dashboard-container'>
       <p>Total: ${total}</p>
       {displayError}
+      {displayAccountMessage}
       <label>Select Account: </label>
       <select onChange={selectAccountChangeHandler}>
         {accountNameOptions}
@@ -138,9 +160,7 @@ const Dashboard = (props) => {
         <button className='dashboard-btn' onClick={addAccountHandler}>
           New Account
         </button>
-        <button className='dashboard-btn' onClick={addTransactionHandler}>
-          New Transaction
-        </button>
+        {newTransactionBtn}
       </div>
       {addAccountHTML}
       {addTransactionHTML}
