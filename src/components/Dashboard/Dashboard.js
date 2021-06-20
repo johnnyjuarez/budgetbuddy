@@ -36,11 +36,9 @@ const Dashboard = (props) => {
       })
       .then((data) => {
         setUserData(data);
-        if (data.length) {
+        if (data.length > 0 && selectedAccountId < 1) {
           setTotal(data[0].account_total);
           setSelectedAccountId(data[0].id);
-        } else {
-          setTotal(0);
         }
       })
       .catch((err) => {
@@ -49,7 +47,7 @@ const Dashboard = (props) => {
   }, [addAccount, transactionData]);
 
   useEffect(() => {
-    let accountId = selectedAccountId.toString();
+    let accountId = selectedAccountId;
     if (selectedAccountId > 0) {
       fetch(`${config.API_ENDPOINT}/transactions/${accountId}`, {
         headers: {
